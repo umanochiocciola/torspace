@@ -1,0 +1,72 @@
+
+Tor Space  -  A secure, decentralized and anonymous chat software
+This software is licenced under the GNU GPL v3 or higher
+
+(this is a prototype, there may be bugs and it surely isn't optimized)
+
+
+Secure:
+	Uses asymmetrical rsa encryption
+Decentralized and anonymous:
+	Conversations go through tor.
+	Each client is also a node.
+
+
+This to work requires working socks5h proxy to resolve .onion addresses.
+Default is on port 9050, check /etc/tor/torrc and pass --port PORT to main.py accordingly
+
+Setup:
+	run
+		'pip3 install -r requirements.txt'
+	to install necessary libraries
+
+Usage:
+	'python3 main.py'
+
+
+
+main.py is a very minimal implementation of an interface, feel free to make a more complete, maybe with also a GUI, version. 
+
+
+
+
+
+Example Usage:
+	
+	we have two users: user1 and user2 on their consoles.
+		user1 ~/TorSpace $python3 main.py
+
+		user2 ~/TorSpace $python3 main.py
+
+	user1 then sends through external means the onion address printed to user2 which pastes it, obeying to the prompt. Same goes vice versa.
+
+	They both chose a username, then each client gets the public key of the other node. (user1 client <- user2 node)
+
+	The comunication is then initialized and when user1 writes something in their console, it gets displayed on user2's and vice versa.
+
+	Once one of the two hits CTRL+C its node is safely disconnected and its client sends a STOPCONNECTION code to the other user, which will automatically close the connection.
+
+
+
+
+
+
+For tweaking:
+
+Structure:
+	
+	'main.py'
+		poorly made interface
+	
+	'node.py'
+		a flask server running on tor. If you're gonna make a better interface, you should change 
+		print_messages function in order to display them in a better way or elswhere then the console
+
+	'client.py'
+		functions to connect to the peer node and send messages. (basically a secialized 'requests' module)
+
+	'crypto.py'
+		functions to use rsa cryptography (basically a specialized 'rsa' module)
+
+
+
